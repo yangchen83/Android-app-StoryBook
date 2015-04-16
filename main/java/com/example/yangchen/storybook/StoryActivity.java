@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.internal.widget.TintImageView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ public class StoryActivity extends ActionBarActivity {
     private TextView textView;
     private Button choice1;
     private Button choice2;
+    private String name;
 
 
     @Override
@@ -29,7 +31,7 @@ public class StoryActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main_activity2);
 
         Intent intent = getIntent();
-        String name = intent.getStringExtra("name");
+        name = intent.getStringExtra("name");
         if (name == null) name = "Mike";
 
         imageView = (ImageView) findViewById(R.id.storyImageView);
@@ -37,21 +39,47 @@ public class StoryActivity extends ActionBarActivity {
         choice1 = (Button) findViewById(R.id.button1);
         choice2 = (Button) findViewById(R.id.button2);
 
-        loadPage();
-
-
+        loadPage(0);
     }
 
-    private void loadPage(){
-        Page page = story.getPage(0);
+    private void loadPage(int choice){
+        final Page page = story.getPage(choice);
 
         Drawable drawable = getResources().getDrawable(page.imageId());
         imageView.setImageDrawable(drawable);
-        textView.setText(page.text());
-        choice1.setText(page.choice1().text());
-        choice2.setText(page.choice2().text());
+        String pageText = page.text();
+        pageText = String.format(pageText, name);
 
+        textView.setText(pageText);
 
+        if (page.isEndOfStory()) {
+            choice1.setVisibility(View.INVISIBLE);
+            choice2.setText("Read the book again");
+
+            choice2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+
+        } else {
+            choice1.setText(page.choice1().text());
+            choice2.setText(page.choice2().text());
+            choice1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    loadPage(page.choice1().nextPage());
+                }
+            });
+
+            choice2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    loadPage(page.choice2().nextPage());
+                }
+            });
+        }
     }
 
 

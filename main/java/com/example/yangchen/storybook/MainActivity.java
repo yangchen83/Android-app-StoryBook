@@ -27,7 +27,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 String name = mNameField.getText().toString();
-                Toast.makeText(MainActivity.this, "Welcome aboard " + name + "!!!", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Welcome aboard " + name + "!!!", Toast.LENGTH_SHORT).show();
                 startStory(name);
             }
         });

@@ -30,7 +30,8 @@
         android:paddingTop="15dp"
         android:paddingRight="30dp"
         android:lineSpacingMultiplier="1.2"
-        android:background="@android:color/white" />
+        android:background="@android:color/white"
+        android:textSize="30dp" />
 
     <Button
         android:layout_width="match_parent"
