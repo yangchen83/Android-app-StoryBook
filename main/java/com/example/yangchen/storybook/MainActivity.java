@@ -1,5 +1,6 @@
 package com.example.yangchen.storybook;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -27,8 +28,14 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 String name = mNameField.getText().toString();
                 Toast.makeText(MainActivity.this, "Welcome aboard " + name + "!!!", Toast.LENGTH_LONG).show();
+                startStory(name);
             }
         });
+    }
 
+    private void startStory(String name){
+        Intent intent = new Intent(this, StoryActivity.class);
+        intent.putExtra("name", name);
+        startActivity(intent);
     }
 }
